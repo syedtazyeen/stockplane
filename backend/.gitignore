@@ -1,0 +1,57 @@
+# Environment
+.env
+.env.*
+!.env.example
+
+# Virtual environments
+.venv/
+venv/
+
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.pyd
+*.pyo
+.python-version
+
+# Build / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Linting / type checking
+.ruff_cache/
+.mypy_cache/
+.pyre/
+.dmypy.json
+
+# IDE
+.vscode/
+.idea/
+
+# macOS
+.DS_Store
+
+# Logs
+*.log
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Alembic
+alembic/versions/__pycache__/
+
+# Docker
+docker-compose.override.yml
+
+# Local databases
+*.db
+*.sqlite
+*.sqlite3
