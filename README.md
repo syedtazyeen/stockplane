@@ -20,6 +20,16 @@ The solution is split into a **FastAPI backend** and a **React SPA**, scoped aro
 | Frontend | React 19, Vite, TanStack Router & Query, Tailwind CSS, shadcn-style UI components, Axios |
 | Tooling | Docker, Docker Compose, pytest, ESLint |
 
+## Docker Hub
+
+The production backend image is published on Docker Hub:
+
+- [syedtazy/stockplane-backend](https://hub.docker.com/r/syedtazy/stockplane-backend)
+
+```bash
+docker pull syedtazy/stockplane-backend:latest
+```
+
 ## Run with Docker Compose
 
 ### Prerequisites
