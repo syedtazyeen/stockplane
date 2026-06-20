@@ -26,6 +26,7 @@ from app.services.customer import CustomerService
 from app.services.inventory import InventoryService
 from app.services.order import OrderService
 from app.services.product import ProductService
+from app.services.stats import StatsService
 
 settings = get_settings()
 
@@ -139,3 +140,7 @@ async def get_order_service(db: AsyncSession = Depends(get_db)) -> OrderService:
             inventory_transaction_repository=InventoryTransactionRepository(db),
         ),
     )
+
+
+async def get_stats_service(db: AsyncSession = Depends(get_db)) -> StatsService:
+    return StatsService(db)

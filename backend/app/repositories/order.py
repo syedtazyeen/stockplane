@@ -34,6 +34,8 @@ class OrderRepository(BaseRepository[Order]):
         )
         if status is not None:
             query = query.where(Order.status == status)
+        else:
+            query = query.where(Order.status != OrderStatus.DRAFT)
         if customer_id is not None:
             query = query.where(Order.customer_id == customer_id)
 

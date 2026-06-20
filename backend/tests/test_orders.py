@@ -71,6 +71,47 @@ async def test_create_order_places_order_and_deducts_stock(
 
 
 @pytest.mark.asyncio
+async def test_create_order_save_as_draft_skips_inventory_deduction(
+    client: AsyncClient,
+    factory: DataFactory,
+) -> None:
+    account = await register_user(client, factory)
+    customer = await create_customer(
+        client,
+        factory,
+        token=account["token"],
+        business_id=account["business_id"],
+    )
+    product = await create_product(
+        client,
+        factory,
+        token=account["token"],
+        business_id=account["business_id"],
+        quantity=10,
+    )
+
+    order = await create_order(
+        client,
+        factory,
+        token=account["token"],
+        business_id=account["business_id"],
+        customer_id=customer["id"],
+        product_id=product["id"],
+        lines=[{"product_id": product["id"], "quantity": 3}],
+        save_as_draft=True,
+    )
+
+    assert order["status"] == "DRAFT"
+
+    inventory_response = await client.get(
+        f"/api/businesses/{account['business_id']}/inventory",
+        headers=auth_headers(account["token"]),
+    )
+    inventory = inventory_response.json()[0]
+    assert inventory["quantity_on_hand"] == 10
+
+
+@pytest.mark.asyncio
 async def test_create_order_insufficient_stock_returns_400(
     client: AsyncClient,
     factory: DataFactory,

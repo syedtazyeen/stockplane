@@ -16,6 +16,7 @@ class OrderCreate(BaseModel):
     customer_id: UUID
     lines: list[OrderLineCreate] = Field(min_length=1)
     notes: str | None = None
+    save_as_draft: bool = False
 
     @field_validator("lines")
     @classmethod

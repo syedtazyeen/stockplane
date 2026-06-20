@@ -32,7 +32,7 @@ async def run_mixed_concurrent_session_requests(
     async def run_one(
         request_factory: Callable[[AsyncClient, AsyncSession], Awaitable[int]],
     ) -> int:
-        async with AsyncClient(transport=transport, base_url="") as client:
+        async with AsyncClient(transport=transport, base_url="http://testserver") as client:
             async with session_factory() as session:
                 async def override_get_db():
                     try:

@@ -61,7 +61,7 @@ async def list_orders(
     "",
     response_model=OrderRead,
     status_code=status.HTTP_201_CREATED,
-    summary="Create and place an order",
+    summary="Create an order, optionally saving as draft",
 )
 async def create_order(
     business_id: uuid.UUID,

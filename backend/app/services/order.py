@@ -152,6 +152,33 @@ class OrderService:
             business_id=business_id,
             lines=order_in.lines,
         )
+
+        if order_in.save_as_draft:
+            order = Order(
+                business_id=business_id,
+                customer_id=order_in.customer_id,
+                status=OrderStatus.DRAFT,
+                notes=order_in.notes,
+                created_by_id=user_id,
+            )
+            await self.order_repository.create(obj=order)
+
+            for line_in in order_in.lines:
+                product = products_by_id[line_in.product_id]
+                line = OrderLine(
+                    order_id=order.id,
+                    product_id=product.id,
+                    quantity=line_in.quantity,
+                    unit_price=product.selling_price,
+                    product_sku=product.sku,
+                    product_name=product.name,
+                )
+                await self.order_line_repository.create(obj=line)
+
+            if commit:
+                await self.db.commit()
+            return await self.get_order(business_id=business_id, order_id=order.id)
+
         product_ids = [line.product_id for line in order_in.lines]
         inventory_by_product = await self.inventory_service.get_many_for_update(
             product_ids=product_ids,
